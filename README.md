@@ -110,7 +110,7 @@ Now, you need to tell the Gemini CLI how to find and run your new server.
 ``` json
     {
       "mcpServers": {
-        "youtube-transcriber": {
+        "TubeScribe": {
           "command": "C:\\Windows\\System32\\cmd.exe",
           "args": [
             "/c",
@@ -130,7 +130,7 @@ Now, you need to tell the Gemini CLI how to find and run your new server.
 ``` json
     {
       "mcpServers": {
-        "youtube-transcriber": {
+        "TubeScribe": {
           "command": "C:\\Windows\\System32\\cmd.exe",
           "args": [
             "/c",
@@ -153,7 +153,7 @@ the request to the server, get the transcript, and display it as the answer to y
 
 Run Gemini CLI and press ctrl+t
 
-You should see `youtube-transcriber` listed as an available tool.
+You should see `TubeScribe` listed as an available tool.
 
 ### MCP Client Example
 
