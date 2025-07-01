@@ -19,7 +19,7 @@ communicating with an MCP server.
 * **AI-Powered Fallback:** If no official transcript exists, it automatically falls back to using OpenAI's Whisper
   `tiny` model to generate a high-quality transcript from the video's audio.
 * **MCP Server Interface:** Exposes the transcription functionality as a simple tool (`get_youtube_transcript`) via the
-  lightweight Meta Call Protocol.
+  lightweight model context protocol.
 
 ## Requirements
 
