@@ -41,7 +41,7 @@ try:
     logging.info("Libraries imported successfully.")
 
     # Create the server instance
-    server = Server("TubeScribe")
+    server = Server("MCP-YouTube-Transcribe")
     logging.info("Server instance created.")
 
 
@@ -130,7 +130,7 @@ try:
                 read_stream,
                 write_stream,
                 InitializationOptions(
-                    server_name="TubeScribe",
+                    server_name="MCP-YouTube-Transcribe",
                     server_version="1.0.0",
                     capabilities=capabilities
                 ),

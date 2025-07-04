@@ -1,4 +1,4 @@
-# TubeScribe
+# MCP-YouTube-Transcribe
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Version](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
@@ -27,7 +27,7 @@ communicating with an MCP server.
 * **[uv](https://github.com/astral-sh/uv):** A fast Python package installer and resolver. You will need to [install
   `uv`](https://github.com/astral-sh/uv#installation) on your system first.
 * **[FFmpeg](https://ffmpeg.org/download.html):** Must be installed and available in your system's PATH. Required for audio processing.
-* **[whisper.cpp](https://github.com/ggerganov/whisper.cpp)** *(Highly recommended)*: TubeScribe will **first** try to use whisper.cpp for lightning-fast local transcription and only fall back to Python Whisper if the executable is not found.
+* **[whisper.cpp](https://github.com/ggerganov/whisper.cpp)** *(Highly recommended)*: MCP-YouTube-Transcribe will **first** try to use whisper.cpp for lightning-fast local transcription and only fall back to Python Whisper if the executable is not found.
   - macOS: `brew install whisper-cpp`
   - Linux: Build from source following the [whisper.cpp installation guide](https://github.com/ggerganov/whisper.cpp#build)
   - Windows: Build from source or grab a pre-built binary from the [releases page](https://github.com/ggerganov/whisper.cpp/releases)
@@ -124,7 +124,7 @@ Now, you need to tell the Gemini CLI how to find and run your new server.
 ``` json
     {
       "mcpServers": {
-        "TubeScribe": {
+        "MCP-YouTube-Transcribe": {
           "command": "C:\\Windows\\System32\\cmd.exe",
           "args": [
             "/c",
@@ -144,7 +144,7 @@ Now, you need to tell the Gemini CLI how to find and run your new server.
 ``` json
     {
       "mcpServers": {
-        "TubeScribe": {
+        "MCP-YouTube-Transcribe": {
           "command": "C:\\Windows\\System32\\cmd.exe",
           "args": [
             "/c",
@@ -164,7 +164,7 @@ After saving the `config.json` file, you can verify that Gemini CLI recognizes a
 
 Run Gemini CLI and press ctrl+t
 
-You should see `TubeScribe` listed as an available tool.
+You should see `MCP-YouTube-Transcribe` listed as an available tool.
 
 ## Connecting to Gemini CLI on Mac/Unix
 
@@ -189,7 +189,7 @@ chmod +x run_server.sh
 ```json
 {
   "mcpServers": {
-    "TubeScribe": {
+    "MCP-YouTube-Transcribe": {
       "command": "/path/to/your/project/run_server.sh",
       "cwd": "/path/to/your/project"
     }
@@ -199,14 +199,14 @@ chmod +x run_server.sh
 
 3. **Replace both instances of `/path/to/your/project`** with the absolute path to where you cloned the repository.
 
-**Example:** If your project is located at `/Users/username/TubeScribe`, the entry would look like this:
+**Example:** If your project is located at `/Users/username/MCP-YouTube-Transcribe`, the entry would look like this:
 
 ```json
 {
   "mcpServers": {
-    "TubeScribe": {
-      "command": "/Users/username/TubeScribe/run_server.sh",
-      "cwd": "/Users/username/TubeScribe"
+    "MCP-YouTube-Transcribe": {
+      "command": "/Users/username/MCP-YouTube-Transcribe/run_server.sh",
+      "cwd": "/Users/username/MCP-YouTube-Transcribe"
     }
   }
 }
@@ -218,7 +218,7 @@ After saving the `config.json` file, you can verify that Gemini CLI recognizes a
 
 Run Gemini CLI and press ctrl+t
 
-You should see `TubeScribe` listed as an available tool.
+You should see `MCP-YouTube-Transcribe` listed as an available tool.
 
 ### MCP Client Example
 
