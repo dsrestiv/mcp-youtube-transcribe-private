@@ -16,8 +16,8 @@ communicating with an MCP server.
 * **YouTube Video Search:** Finds the most relevant YouTube video based on a text query.
 * **Official Transcript Priority:** Intelligently fetches manually created or auto-generated YouTube transcripts first
   for speed and accuracy.
-* **AI-Powered Fallback:** If no official transcript exists, it automatically falls back to using OpenAI's Whisper
-  `tiny` model to generate a high-quality transcript from the video's audio.
+* **Fast AI-Powered Transcription:** Uses whisper.cpp (if available) for blazing fast transcription. Falls back to OpenAI's Python Whisper
+  `tiny` model if whisper.cpp is not installed.
 * **MCP Server Interface:** Exposes the transcription functionality as a simple tool (`get_youtube_transcript`) via the
   lightweight model context protocol.
 
@@ -26,8 +26,23 @@ communicating with an MCP server.
 * Python 3.12+
 * **[uv](https://github.com/astral-sh/uv):** A fast Python package installer and resolver. You will need to [install
   `uv`](https://github.com/astral-sh/uv#installation) on your system first.
-* **[FFmpeg](https://ffmpeg.org/download.html):** Must be installed and available in your system's PATH. OpenAI Whisper
-  requires it to process audio files.
+* **[FFmpeg](https://ffmpeg.org/download.html):** Must be installed and available in your system's PATH. Required for audio processing.
+* **[whisper.cpp](https://github.com/ggerganov/whisper.cpp)** *(Highly recommended)*: TubeScribe will **first** try to use whisper.cpp for lightning-fast local transcription and only fall back to Python Whisper if the executable is not found.
+  - macOS: `brew install whisper-cpp`
+  - Linux: Build from source following the [whisper.cpp installation guide](https://github.com/ggerganov/whisper.cpp#build)
+  - Windows: Build from source or grab a pre-built binary from the [releases page](https://github.com/ggerganov/whisper.cpp/releases)
+
+  After installation, make sure the `whisper-cli` (or `whisper-cpp` on older versions) command is in your PATH.
+
+  Finally, download a Whisper model. The **tiny** model offers the best speed-to-quality ratio for most use-cases:
+
+  ```bash
+  mkdir -p models
+  curl -L -o models/ggml-tiny.bin \
+       https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny.bin
+  ```
+
+  Place additional models in the same `models/` folder if you wish to experiment.
 
 ## Installation with `uv`
 
@@ -69,8 +84,7 @@ The server will log its activity to a file named `mcp_server.log` in the project
 ## Connecting to Gemini CLI on Windows
 
 You can connect this MCP server to the Google Gemini CLI to use the function as a native tool directly from your
-terminal. `get_youtube_transcript`
-These instructions are for a **Windows** environment.
+terminal. These instructions are for a **Windows** environment.
 
 ### Step 1: Create a Startup Script `run_server.bat`
 
@@ -146,10 +160,61 @@ Now, you need to tell the Gemini CLI how to find and run your new server.
 
 ### Step 3: Verify the Connection
 
-After saving the `config.json` file, you can verify that Gemini CLI recognises and can use your new tool.
+After saving the `config.json` file, you can verify that Gemini CLI recognizes and can use your new tool.
 
-Gemini will now execute your `run_server.bat` script in the background, which starts the MCP server. It will then send
-the request to the server, get the transcript, and display it as the answer to your prompt.
+Run Gemini CLI and press ctrl+t
+
+You should see `TubeScribe` listed as an available tool.
+
+## Connecting to Gemini CLI on Mac/Unix
+
+You can also connect this MCP server to the Google Gemini CLI on Mac or other Unix-like systems. The process is similar to Windows but uses a shell script instead of a batch file.
+
+### Step 1: Prepare the Startup Script
+
+The repository already includes a `run_server.sh` script. Just make it executable:
+
+```bash
+chmod +x run_server.sh
+```
+
+### Step 2: Configure the Gemini CLI
+
+1. Locate your Gemini CLI `config.json` file. On Mac/Unix systems, this is typically found at:
+   `~/.gemini/config.json`
+
+2. Open the `config.json` file in a text editor. Add the following entry to the `mcpServers` object. If `mcpServers`
+   doesn't exist, create it as shown below:
+
+```json
+{
+  "mcpServers": {
+    "TubeScribe": {
+      "command": "/path/to/your/project/run_server.sh",
+      "cwd": "/path/to/your/project"
+    }
+  }
+}
+```
+
+3. **Replace both instances of `/path/to/your/project`** with the absolute path to where you cloned the repository.
+
+**Example:** If your project is located at `/Users/username/TubeScribe`, the entry would look like this:
+
+```json
+{
+  "mcpServers": {
+    "TubeScribe": {
+      "command": "/Users/username/TubeScribe/run_server.sh",
+      "cwd": "/Users/username/TubeScribe"
+    }
+  }
+}
+```
+
+### Step 3: Verify the Connection
+
+After saving the `config.json` file, you can verify that Gemini CLI recognizes and can use your new tool.
 
 Run Gemini CLI and press ctrl+t
 
