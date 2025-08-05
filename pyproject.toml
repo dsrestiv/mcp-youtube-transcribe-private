@@ -8,5 +8,6 @@ dependencies = [
     "openai-whisper",
     "yt-dlp",
     "youtube-transcript-api",
-    "mcp"
+    "mcp",
+    "pytube"
 ]
